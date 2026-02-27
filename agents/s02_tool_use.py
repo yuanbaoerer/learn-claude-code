@@ -4,6 +4,7 @@ s02_tool_use.py - Tools
 
 The agent loop from s01 didn't change. We just added tools to the array
 and a dispatch map to route calls.
+s01的智能体循环没有改变。我们只是在数组中添加了工具，以及一个用于路由调用的调度映射。
 
     +----------+      +-------+      +------------------+
     |   User   | ---> |  LLM  | ---> | Tool Dispatch    |
@@ -16,6 +17,7 @@ and a dispatch map to route calls.
                                      +------------------+
 
 Key insight: "The loop didn't change at all. I just added tools."
+核心见解：“循环根本没有改变。我只是添加了工具。”
 """
 
 import os
@@ -37,6 +39,7 @@ MODEL = os.environ["MODEL_ID"]
 SYSTEM = f"You are a coding agent at {WORKDIR}. Use tools to solve tasks. Act, don't explain."
 
 
+# 每个工具有一个处理函数。路径沙盒防止逃逸工作区
 def safe_path(p: str) -> Path:
     path = (WORKDIR / p).resolve()
     if not path.is_relative_to(WORKDIR):
@@ -91,6 +94,7 @@ def run_edit(path: str, old_text: str, new_text: str) -> str:
 
 
 # -- The dispatch map: {tool_name: handler} --
+# 核心设计思想：添加工具就是添加一个处理函数 TOOL_HANDLER
 TOOL_HANDLERS = {
     "bash":       lambda **kw: run_bash(kw["command"]),
     "read_file":  lambda **kw: run_read(kw["path"], kw.get("limit")),
@@ -120,6 +124,7 @@ def agent_loop(messages: list):
         if response.stop_reason != "tool_use":
             return
         results = []
+        # 循环中按名称查找处理函数。
         for block in response.content:
             if block.type == "tool_use":
                 handler = TOOL_HANDLERS.get(block.name)
