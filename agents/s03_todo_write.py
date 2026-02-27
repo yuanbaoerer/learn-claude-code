@@ -4,6 +4,7 @@ s03_todo_write.py - TodoWrite
 
 The model tracks its own progress via a TodoManager. A nag reminder
 forces it to keep updating when it forgets.
+该模型通过任务管理器（TodoManager）追踪自身进度。当它忘记更新时，一个提醒会强制它继续更新。
 
     +----------+      +-------+      +---------+
     |   User   | ---> |  LLM  | ---> | Tools   |
