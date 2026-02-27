@@ -21,6 +21,8 @@ The entire secret of an AI coding agent in one pattern:
 This is the core loop: feed tool results back to the model
 until the model decides to stop. Production agents layer
 policy, hooks, and lifecycle controls on top.
+
+这是核心循环：将工具结果反馈给模型，直到模型决定停止。生产级代理会在其上叠加策略、钩子和生命周期控制。
 """
 
 import os
