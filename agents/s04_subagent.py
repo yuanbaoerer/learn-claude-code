@@ -5,6 +5,9 @@ s04_subagent.py - Subagents
 Spawn a child agent with fresh messages=[]. The child works in its own
 context, sharing the filesystem, then returns only a summary to the parent.
 
+生成一个子代理，其消息列表为空（messages=[]）。
+该子代理在自己的上下文中工作，共享文件系统，之后仅向父代理返回一个摘要。
+
     Parent agent                     Subagent
     +------------------+             +------------------+
     | messages=[...]   |             | messages=[]      |  <-- fresh
