@@ -4,6 +4,8 @@ s07_task_system.py - Tasks
 
 Tasks persist as JSON files in .tasks/ so they survive context compression.
 Each task has a dependency graph (blockedBy/blocks).
+任务以JSON文件的形式保存在.tasks/目录中，这样它们就能在上下文压缩后留存下来。
+每个任务都有一个依赖关系图（blockedBy/blocks）。
 
     .tasks/
       task_1.json  {"id":1, "subject":"...", "status":"completed", ...}
