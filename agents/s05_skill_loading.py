@@ -26,6 +26,8 @@ Two-layer skill injection that avoids bloating the system prompt:
     +--------------------------------------+
 
 Key insight: "Don't put everything in the system prompt. Load on demand."
+
+使用SkillLoader解析frontmatter，分离元数据和正文
 """
 
 import os
