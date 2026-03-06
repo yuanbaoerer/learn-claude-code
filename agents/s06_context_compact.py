@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-s06_context_compact.py - Compact
+s06_context_compact.py - Compact 上下文压缩
 
 Three-layer compression pipeline so the agent can work forever:
 
@@ -31,6 +31,7 @@ Three-layer compression pipeline so the agent can work forever:
                   Same as auto, triggered manually.
 
 Key insight: "The agent can forget strategically and keep working forever."
+核心见解：“智能体能够战略性地遗忘，并永久持续工作。”
 """
 
 import json
