@@ -4,6 +4,7 @@ s08_background_tasks.py - Background Tasks
 
 Run commands in background threads. A notification queue is drained
 before each LLM call to deliver results.
+在后台线程中运行命令。每次调用大语言模型（LLM）前，会先清空通知队列以交付结果。
 
     Main thread                Background thread
     +-----------------+        +-----------------+
