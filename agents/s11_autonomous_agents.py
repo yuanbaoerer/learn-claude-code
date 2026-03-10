@@ -5,6 +5,9 @@ s11_autonomous_agents.py - Autonomous Agents
 Idle cycle with task board polling, auto-claiming unclaimed tasks, and
 identity re-injection after context compression. Builds on s10's protocols.
 
+带有任务板轮询、自动认领未被认领的任务以及上下文压缩后重新注入身份信息的空闲周期。
+基于s10的协议构建。
+
     Teammate lifecycle:
     +-------+
     | spawn |
@@ -32,6 +35,7 @@ identity re-injection after context compression. Builds on s10's protocols.
     "You are 'coder', role: backend, team: my-team"
 
 Key insight: "The agent finds work itself."
+agent 会自己找活干
 """
 
 import json
