@@ -6,6 +6,10 @@ Capstone implementation combining every mechanism from s01-s11.
 Session s12 (task-aware worktree isolation) is taught separately.
 NOT a teaching session -- this is the "put it all together" reference.
 
+顶点项目实现整合了从s01到s11的所有机制。
+第s12课（任务感知工作树隔离）将单独教授。
+这不是教学课程——而是“将所有内容整合在一起”的参考资料。
+
     +------------------------------------------------------------------+
     |                        FULL AGENT                                 |
     |                                                                   |

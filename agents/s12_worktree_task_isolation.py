@@ -5,6 +5,11 @@ s12_worktree_task_isolation.py - Worktree + Task Isolation
 Directory-level isolation for parallel task execution.
 Tasks are the control plane and worktrees are the execution plane.
 
+s12_worktree_task_isolation.py - 工作树 + 任务隔离
+
+用于并行任务执行的目录级隔离。
+任务是控制平面，工作树是执行平面。
+
     .tasks/task_12.json
       {
         "id": 12,
@@ -27,6 +32,7 @@ Tasks are the control plane and worktrees are the execution plane.
       }
 
 Key insight: "Isolate by directory, coordinate by task ID."
+文件夹隔离，通过任务ID合作
 """
 
 import json
