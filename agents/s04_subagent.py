@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Harness: context isolation -- protecting the model's clarity of thought.
 """
 s04_subagent.py - Subagents
 
@@ -182,4 +183,9 @@ if __name__ == "__main__":
             break
         history.append({"role": "user", "content": query})
         agent_loop(history)
+        response_content = history[-1]["content"]
+        if isinstance(response_content, list):
+            for block in response_content:
+                if hasattr(block, "text"):
+                    print(block.text)
         print()

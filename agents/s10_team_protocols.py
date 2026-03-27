@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Harness: protocols -- structured handshakes between models.
 """
 s10_team_protocols.py - Team Protocols
 
@@ -478,4 +479,9 @@ if __name__ == "__main__":
             continue
         history.append({"role": "user", "content": query})
         agent_loop(history)
+        response_content = history[-1]["content"]
+        if isinstance(response_content, list):
+            for block in response_content:
+                if hasattr(block, "text"):
+                    print(block.text)
         print()

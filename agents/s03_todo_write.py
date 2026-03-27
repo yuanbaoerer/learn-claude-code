@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Harness: planning -- keeping the model on course without scripting the route.
 """
 s03_todo_write.py - TodoWrite
 
@@ -166,11 +167,7 @@ TOOLS = [
 def agent_loop(messages: list):
     rounds_since_todo = 0
     while True:
-        # Nag reminder: if 3+ rounds without a todo update, inject reminder
-        if rounds_since_todo >= 3 and messages:
-            last = messages[-1]
-            if last["role"] == "user" and isinstance(last.get("content"), list):
-                last["content"].insert(0, {"type": "text", "text": "<reminder>Update your todos.</reminder>"})
+        # Nag reminder is injected below, alongside tool results
         response = client.messages.create(
             model=MODEL, system=SYSTEM, messages=messages,
             tools=TOOLS, max_tokens=8000,
@@ -192,6 +189,8 @@ def agent_loop(messages: list):
                 if block.name == "todo":
                     used_todo = True
         rounds_since_todo = 0 if used_todo else rounds_since_todo + 1
+        if rounds_since_todo >= 3:
+            results.insert(0, {"type": "text", "text": "<reminder>Update your todos.</reminder>"})
         messages.append({"role": "user", "content": results})
 
 
@@ -206,4 +205,9 @@ if __name__ == "__main__":
             break
         history.append({"role": "user", "content": query})
         agent_loop(history)
+        response_content = history[-1]["content"]
+        if isinstance(response_content, list):
+            for block in response_content:
+                if hasattr(block, "text"):
+                    print(block.text)
         print()

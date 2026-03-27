@@ -3,6 +3,8 @@
 `s01 > s02 > s03 > s04 > [ s05 ] s06 | s07 > s08 > s09 > s10 > s11 > s12`
 
 > *"必要な知識を、必要な時に読み込む"* -- system prompt ではなく tool_result で注入。
+>
+> **Harness 層**: オンデマンド知識 -- モデルが求めた時だけ渡すドメイン専門性。
 
 ## 問題
 
@@ -33,24 +35,27 @@ When model calls load_skill("git"):
 
 ## 仕組み
 
-1. スキルファイルは`.skills/`にYAMLフロントマター付きMarkdownとして配置される。
+1. 各スキルは `SKILL.md` ファイルを含むディレクトリとして配置される。
 
 ```
-.skills/
-  git.md       # ---\n description: Git workflow\n ---\n ...
-  test.md      # ---\n description: Testing patterns\n ---\n ...
+skills/
+  pdf/
+    SKILL.md       # ---\n name: pdf\n description: Process PDF files\n ---\n ...
+  code-review/
+    SKILL.md       # ---\n name: code-review\n description: Review code\n ---\n ...
 ```
 
-2. SkillLoaderがフロントマターを解析し、メタデータと本体を分離する。
+2. SkillLoaderが `SKILL.md` を再帰的に探索し、ディレクトリ名をスキル識別子として使用する。
 
 ```python
 class SkillLoader:
     def __init__(self, skills_dir: Path):
         self.skills = {}
-        for f in sorted(skills_dir.glob("*.md")):
+        for f in sorted(skills_dir.rglob("SKILL.md")):
             text = f.read_text()
             meta, body = self._parse_frontmatter(text)
-            self.skills[f.stem] = {"meta": meta, "body": body}
+            name = meta.get("name", f.parent.name)
+            self.skills[name] = {"meta": meta, "body": body}
 
     def get_descriptions(self) -> str:
         lines = []
@@ -87,7 +92,7 @@ TOOL_HANDLERS = {
 |----------------|------------------|----------------------------|
 | Tools          | 5 (base + task)  | 5 (base + load_skill)      |
 | System prompt  | Static string    | + skill descriptions       |
-| Knowledge      | None             | .skills/*.md files         |
+| Knowledge      | None             | skills/\*/SKILL.md files   |
 | Injection      | None             | Two-layer (system + result)|
 
 ## 試してみる

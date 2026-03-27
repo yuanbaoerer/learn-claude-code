@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Harness: all mechanisms combined -- the complete cockpit for the model.
 """
 s_full.py - Full Reference Agent
 
@@ -203,7 +204,7 @@ class SkillLoader:
     def __init__(self, skills_dir: Path):
         self.skills = {}
         if skills_dir.exists():
-            for f in sorted(skills_dir.glob("*.md")):
+            for f in sorted(skills_dir.rglob("SKILL.md")):
                 text = f.read_text()
                 match = re.match(r"^---\n(.*?)\n---\n(.*)", text, re.DOTALL)
                 meta, body = {}, text
@@ -213,7 +214,8 @@ class SkillLoader:
                             k, v = line.split(":", 1)
                             meta[k.strip()] = v.strip()
                     body = match.group(2).strip()
-                self.skills[f.stem] = {"meta": meta, "body": body}
+                name = meta.get("name", f.parent.name)
+                self.skills[name] = {"meta": meta, "body": body}
 
     def descriptions(self) -> str:
         if not self.skills: return "(no skills)"
